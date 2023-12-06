@@ -50,5 +50,8 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+    return Promise.all([
+        queryInterface.dropTable('Articles')
+    ])
   }
 };
