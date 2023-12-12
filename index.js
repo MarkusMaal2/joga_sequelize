@@ -24,6 +24,7 @@ sequelize
 })*/
 const articleRouter = require('./routes/article')
 app.use('/', articleRouter)
+app.use('/article', articleRouter)
 
 // listener
 app.listen(3010, () => {
