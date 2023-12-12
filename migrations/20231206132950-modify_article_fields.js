@@ -13,7 +13,6 @@ module.exports = {
         queryInterface.changeColumn('Articles', 'id', {
           type: Sequelize.INTEGER,
           autoIncrement: true,
-          primaryKey: true,
           allowNull: false
         }),
       queryInterface.changeColumn('Articles', 'name', {

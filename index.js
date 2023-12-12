@@ -23,8 +23,10 @@ sequelize
     res.json({ message: "Welcome to sequelize application!"})
 })*/
 const articleRouter = require('./routes/article')
+const authorRouter = require('./routes/author')
 app.use('/', articleRouter)
 app.use('/article', articleRouter)
+app.use('/author', authorRouter)
 
 // listener
 app.listen(3010, () => {
