@@ -19,9 +19,11 @@ sequelize
     })
 
 // routes
-app.get("/", (req, res) => {
+/*app.get("/", (req, res) => {
     res.json({ message: "Welcome to sequelize application!"})
-})
+})*/
+const articleRouter = require('./routes/article')
+app.use('/', articleRouter)
 
 // listener
 app.listen(3010, () => {
