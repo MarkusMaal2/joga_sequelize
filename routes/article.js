@@ -9,5 +9,6 @@ router.get('/article/:slug', articleController.getArticleBySlug)
 
 // admin routes
 router.post('/admin/article/create', articleAdminController.createArticle)
+router.all('/admin/article/edit/:id', articleAdminController.updateArticle)
 
 module.exports = router;

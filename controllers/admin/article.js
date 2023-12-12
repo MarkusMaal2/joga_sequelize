@@ -29,6 +29,56 @@ const createArticle = (req, res) => {
         })
 }
 
+const updateArticle = (req, res) => {
+    if (req.method === "POST") {
+        // update stuff
+        let name= req.body.name
+        let slug = req.body.slug
+        let image = req.body.image
+        let body = req.body.body
+        let author_id = req.body.author_id
+        models.Article.update({
+            name: name,
+            slug: slug,
+            image: image,
+            body: body,
+            author_id: author_id,
+        }, {
+            where: {id: req.params.id}
+        }).then(rows => {
+            if (rows > 0) {
+                return res.status(200).json({message: "Article updated successfully"})
+            } else {
+                return res.status(400).json({message: "This article does not exist"})
+            }
+        }).catch(error => {
+            return res.status(500).json({message: error.message})
+        })
+    } else if (req.method === "GET") {
+        // show form
+        /* MODIFY THIS LATER TO DISPLAY FORM, WHICH SENDS A POST REQUEST */
+        console.log("GET!")
+        models.Article.findByPk(req.params.id, {
+            include: [
+                {
+                    model: models.Author
+                }
+            ],
+        }).then(article => {
+            console.log(article);
+            return res.status(200).json({article});
+        })
+            .catch((error) => {
+                return res.status(500).json({message: error.message})
+            })
+    } else {
+        // other methods not allowed
+        console.log(`'${req.method}' is an invalid method: POST or GET expected`)
+        return res.status(400).json({message: `'${req.method}' is an invalid method: POST or GET expected`});
+    }
+}
+
 module.exports = {
-    createArticle
+    createArticle,
+    updateArticle
 }
