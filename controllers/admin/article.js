@@ -57,7 +57,20 @@ const updateArticle = (req, res) => {
                 return res.status(500).json({message: error.message})
             })
         } else {
-            return res.status(200).json({message: "Feature not implemented"})
+            // delete article
+            models.Article.destroy({
+                where: {
+                    id: req.params.id
+                }
+            }).then((rows) => {
+                if (rows > 0) {
+                    return res.status(200).json({message: "Article deleted successfully"})
+                } else {
+                    return res.status(400).json({message: "This article does not exist"})
+                }
+            }).catch((error) => {
+                return res.status(500).json({message: error.message})
+            })
         }
     } else if (req.method === "GET") {
         // show form
@@ -70,15 +83,19 @@ const updateArticle = (req, res) => {
         }).then(article => {
             models.Author.findAll().then(
                 (authors) => {
-                    const authorValues = [];
-                    authors.forEach((author) => {
-                        authorValues.push(author.dataValues)
-                    })
-                    res.render('edit', {
-                        message: "",
-                        article: article.dataValues,
-                        authors: authorValues
-                    })
+                    if (article !== null) {
+                        const authorValues = [];
+                        authors.forEach((author) => {
+                            authorValues.push(author.dataValues)
+                        })
+                        res.render('edit', {
+                            message: "",
+                            article: article.dataValues,
+                            authors: authorValues
+                        })
+                    } else {
+                        return res.status(400).json({message: "This article does not exist"})
+                    }
                 }
             )
         })
