@@ -4,6 +4,18 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+const hbs = require('express-handlebars')
+
+const path = require('path')
+// setup template dir and file exts
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'hbs')
+app.engine('hbs', hbs.engine({
+    extname: 'hbs',
+    defaultLayout: 'main',
+    layoutsDir: __dirname + '/views/layouts',
+}))
+
 // connect to db
 const Sequelize = require("sequelize")
 const sequelize = new Sequelize("mysql://root:qwerty@localhost:3306/joga_sequelize")
@@ -24,6 +36,7 @@ sequelize
 })*/
 const articleRouter = require('./routes/article')
 const authorRouter = require('./routes/author')
+app.use(express.static('public'))
 app.use('/', articleRouter)
 app.use('/article', articleRouter)
 app.use('/author', authorRouter)
